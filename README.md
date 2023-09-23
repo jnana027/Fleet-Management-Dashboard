@@ -32,4 +32,4 @@ Integration: Many FMS platforms can integrate with other business systems, such 
 Fleet management systems are used in various industries and sectors, including logistics, transportation, delivery services, construction, agriculture, and public transportation
 
 
-![image](https://github.com/jnana027/Fleet-Management-Dashboard/assets/120124430/caae4a17-c15b-468b-b9d2-c647c7dcd771)
+live Dashboard link : https://www.novypro.com/project/fleet-management-system
