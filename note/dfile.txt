@@ -1,0 +1,28 @@
+total kilometer travelled by truck 
+Total KM Travelled = SUM(factTable_KMTraveled[KM Traveled])
+
+Total Driver:
+Total Driver = COUNT(Dim_Drivers[Driver ID])
+
+Total Fixed costs:
+Total fix cost = SUM(factTable_KMTraveled[Fixed Costs])
+
+Total Fuel:
+Total Fuel consumed = SUM(factTable_KMTraveled[Fuel])
+
+Total liters:
+Total liters consumed = SUM(factTable_KMTraveled[Liters])
+
+Total Maintenace:
+Total Maintenace cost = SUM(factTable_KMTraveled[Maintenance])
+
+To create Date table:
+DateTable=
+ADDCOLUMNS(
+    CALENDARAUTO(),
+    "Month",FORMAT([Date],"MMM"),
+    "Month number",MONTH([Date]),
+    "Year",YEAR([Date]),
+    "Quarter","Q" & FORMAT([Date],"Q"),
+    "Day Name",FORMAT([Date],"ddd"),
+    "Days",1)

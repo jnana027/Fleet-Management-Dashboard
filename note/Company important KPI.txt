@@ -1,0 +1,121 @@
+Company important KPI:
+1.All Liters consumed
+2.Total Drivers
+3.Total Kilometer Traveled
+4.Total fix cost
+5.Total Fuel consumed
+6.Maintenance Cost
+
+
+Drivers KPI:
+1.Average Speed
+2.Average Fuel Efficiency
+3.Fuel consumption per Kilometer
+4.Fuel Cost per Kilometer
+
+Filters:
+1.Truck type
+2.Trailer type
+
+
+Use Software:
+1."Adobe.color.com " for chooseing color.
+2."flaticon.com" for chooseing the icon.
+3.Powerpoint for Presentation
+
+
+Tooltrip:
+1.Driver avg. speed = 
+DIVIDE([Total KM Travelled],[Total Driver],0)
+
+2.Avg. fuel Efficiency = 
+DIVIDE([Total KM Travelled],[Total liters consumed],0)
+
+
+3.Total Fuel consumption per KM = 
+DIVIDE([Total liters consumed],[Total KM Travelled],0)
+
+4.Fuel cost per KM = 
+DIVIDE([Total Fuel consumed],[Total KM Travelled],0)
+
+
+
+2nd page:
+
+This Dax expression calculate the sum of the values in the "weight(kg)" column of the factTable_freight table.It adds all the individual weight of different shipment or greight items and divides the sum of the weight by 1000.since 1 metrics ton is equal to 1000 kilograms,dividing the sum by 1000 converts the total weight from kilograms to metrics tons.
+1.Total Weight(Tons) = SUM(factTable_freight[Weight (Kg)])/1000
+
+2.Total Weight(cubic) = SUM(factTable_freight[Weight (Cubic)])
+
+3.Total Revenue = SUM(factTable_freight[Net Revenue])
+
+4.Total Goods Value = SUM(factTable_freight[Goods Value])
+
+5.Total Deliver Orders = DISTINCTCOUNT(factTable_freight[Invoice Number])
+
+
+This DAX expression calculates the previous year's revenue and current year's revenue, then finds the growth compared to the previous year.
+6.(%) YoY Growth Revenue = 
+var currentyearRevenue=[Total Revenue]
+var PreviousyearRevenue=CALCULATE([Total Revenue],SAMEPERIODLASTYEAR(DateTable[Date]))
+return
+DIVIDE(currentyearRevenue-PreviousyearRevenue,PreviousyearRevenue,0)
+
+
+7.(%) YoY Growth Goods Value = 
+var currentyearGV=[Total Goods Value]
+var PreviousyearGV=CALCULATE([Total Goods Value],SAMEPERIODLASTYEAR(DateTable[Date]))
+return
+DIVIDE(currentyearGV-PreviousyearGV,PreviousyearGV,0)
+
+
+8.(%) YoY Growth Weight Tons = 
+var currentyearWT=[Total Weight(Tons)]
+var PreviousyearWT=CALCULATE([Total Weight(Tons)],SAMEPERIODLASTYEAR(DateTable[Date]))
+return
+DIVIDE(currentyearWT-PreviousyearWT,PreviousyearWT,0)
+
+
+9.(%) YoY Growth Weight cubic = 
+var currentyearWC=[Total Weight(cubic)]
+var PreviousyearWC=CALCULATE([Total Weight(cubic)],SAMEPERIODLASTYEAR(DateTable[Date]))
+return
+DIVIDE(currentyearWC-PreviousyearWC,PreviousyearWC,0)
+
+
+10.(%) YoY Growth Deliver order = 
+var currentyearDO=[Total Deliver Orders]
+var PreviousyearDO=CALCULATE([Total Deliver Orders],SAMEPERIODLASTYEAR(DateTable[Date]))
+return
+DIVIDE(currentyearDO-PreviousyearDO,PreviousyearDO,0)
+
+
+
+The Dax expression "HasMultipleTransction" is a calculated column that evaluates wheather a customer in the 'factTable_freight' table has multiple transction or not.
+11.HasoneorderorMultiple = 
+IF(
+    CALCULATE(COUNTROWS(factTable_freight),ALLEXCEPT(factTable_freight,factTable_freight[Customer ID]))>1,
+    "Yes",
+    "No")
+
+
+12.Customer with Multiple orders = 
+CALCULATE(COUNT(factTable_freight[HasoneorderorMultiple]),
+factTable_freight[HasoneorderorMultiple]="Yes")
+
+
+13.Customer with One orders = 
+CALCULATE(COUNT(factTable_freight[HasoneorderorMultiple]),
+factTable_freight[HasoneorderorMultiple]="No")
+
+
+14.% of Repeat Customers=
+DIVIDE([Customer with Multiple orders],[Customer with Multiple orders]+[Customer with One orders],0)
+
+
+16.% of OneTime Customers = 
+DIVIDE([Customer with One orders],[Customer with Multiple orders]+[Customer with One orders],0)
+
+
+17.Full state1 = 
+LOOKUPVALUE(STATES[Full Name],STATES[State ID],Dim_Customers[State ID])
